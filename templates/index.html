@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ profile.name }} | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0a192f;
+        color: #ccd6f6;
+        overflow-x: hidden;
+      }
+
+      .accent-color {
+        color: #64ffda;
+      }
+
+      .accent-bg {
+        background-color: #64ffda;
+      }
+
+      .secondary-color {
+        color: #8892b0;
+      }
+
+      /* Enhanced Animation Classes */
+      .section {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.6s ease-out;
+      }
+
+      .fade-in-up.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .fade-in-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .fade-in-left.animate {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .fade-in-right {
+        opacity: 0;
+        transform: translateX(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .fade-in-right.animate {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scale-in {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .scale-in.animate {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .glass-effect {
+        background: rgba(23, 42, 69, 0.6);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Enhanced Hover Effects */
+      .card-hover {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(100, 255, 218, 0.3);
+      }
+
+      .card-hover::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(100, 255, 218, 0.1),
+          rgba(100, 255, 218, 0.05)
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        border-radius: inherit;
+        z-index: -1;
+      }
+
+      .card-hover:hover::before {
+        opacity: 1;
+      }
+
+      .skill-item {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-item::before {
+        content: "";
+        position: absolute;
+        left: -100%;
+        top: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #64ffda, transparent);
+        transition: left 0.6s ease;
+      }
+
+      .skill-item:hover::before {
+        left: 100%;
+      }
+
+      .skill-item:hover {
+        color: #64ffda;
+        transform: translateX(5px);
+      }
+
+      /* Typewriter Effect */
+      .typewriter {
+        overflow: hidden;
+        border-right: 2px solid #64ffda;
+        white-space: nowrap;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: #64ffda;
+        }
+      }
+
+      /* Floating Animation */
+      .floating {
+        animation: floating 6s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        33% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+        66% {
+          transform: translateY(5px) rotate(-1deg);
+        }
+      }
+
+      /* Pulse Effect */
+      .pulse-glow {
+        animation: pulse-glow 2s infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(100, 255, 218, 0.8),
+            0 0 60px rgba(100, 255, 218, 0.4);
+        }
+      }
+
+      /* Progress Bar Animation */
+      .progress-bar {
+        position: relative;
+        height: 4px;
+        background: rgba(100, 255, 218, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .progress-bar::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, #64ffda, transparent);
+        animation: progress-wave 2s infinite;
+      }
+
+      @keyframes progress-wave {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      /* Custom Button Styles */
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(100, 255, 218, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        z-index: -1;
+      }
+
+      .btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Project Image Wrapper Styles */
+      .project-image-wrapper {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .project-image-wrapper:hover {
+        transform: translateZ(0);
+      }
+
+      /* Project Content Animation Delay */
+      .project-item:nth-child(1) .fade-in-left,
+      .project-item:nth-child(1) .fade-in-right {
+        animation-delay: 0.1s;
+      }
+
+      .project-item:nth-child(2) .fade-in-left,
+      .project-item:nth-child(2) .fade-in-right {
+        animation-delay: 0.2s;
+      }
+
+      .project-item:nth-child(3) .fade-in-left,
+      .project-item:nth-child(3) .fade-in-right {
+        animation-delay: 0.3s;
+      }
+
+      .project-item:nth-child(4) .fade-in-left,
+      .project-item:nth-child(4) .fade-in-right {
+        animation-delay: 0.4s;
+      }
+
+      .project-item:nth-child(5) .fade-in-left,
+      .project-item:nth-child(5) .fade-in-right {
+        animation-delay: 0.5s;
+      }
+
+      /* Enhanced Glass Effect for Project Cards */
+      .project-content .glass-effect {
+        background: rgba(23, 42, 69, 0.8);
+        border: 1px solid rgba(100, 255, 218, 0.2);
+      }
+
+      .project-content .glass-effect:hover {
+        background: rgba(23, 42, 69, 0.9);
+        border-color: rgba(100, 255, 218, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Navigation Enhancement */
+      .nav-indicator {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #64ffda;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover .nav-indicator {
+        width: 100%;
+      }
+
+      .active .nav-indicator {
+        width: 100%;
+      }
+
+      /* Enhanced Skills Section Styles */
+      .skill-card {
+        background: linear-gradient(
+          135deg,
+          rgba(23, 42, 69, 0.8),
+          rgba(15, 30, 55, 0.9)
+        );
+        border: 1px solid rgba(100, 255, 218, 0.2);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #64ffda, transparent);
+        transition: left 0.8s ease;
+      }
+
+      .skill-card:hover::before {
+        left: 100%;
+      }
+
+      .skill-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        border-color: rgba(100, 255, 218, 0.5);
+        box-shadow: 0 20px 40px rgba(100, 255, 218, 0.15),
+          0 0 30px rgba(100, 255, 218, 0.1);
+      }
+
+      .skill-badge {
+        background: rgba(100, 255, 218, 0.1);
+        border: 1px solid rgba(100, 255, 218, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-badge::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(100, 255, 218, 0.2),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .skill-badge:hover::before {
+        left: 100%;
+      }
+
+      .skill-badge:hover {
+        background: rgba(100, 255, 218, 0.2);
+        border-color: rgba(100, 255, 218, 0.6);
+        color: #64ffda;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+      }
+
+      .skill-category-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #64ffda, #4dd0c4);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 20px rgba(100, 255, 218, 0.3);
+      }
+
+      .skill-card:hover .skill-category-icon {
+        transform: rotate(360deg) scale(1.1);
+        box-shadow: 0 15px 30px rgba(100, 255, 218, 0.5);
+      }
+
+      .skill-progress {
+        height: 2px;
+        background: rgba(100, 255, 218, 0.2);
+        border-radius: 1px;
+        overflow: hidden;
+        margin-top: 1rem;
+      }
+
+      .skill-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #64ffda, #4dd0c4);
+        border-radius: 1px;
+        transform-origin: left;
+        animation: skill-load 2s ease-in-out;
+      }
+
+      @keyframes skill-load {
+        0% {
+          transform: scaleX(0);
+        }
+        100% {
+          transform: scaleX(1);
+        }
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* Comprehensive Responsive Design */
+      @media (max-width: 480px) {
+        body {
+          font-size: 14px;
+        }
+
+        .skill-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .skill-card {
+          padding: 1.5rem;
+          min-height: auto;
+        }
+
+        .skill-category-icon {
+          width: 45px;
+          height: 45px;
+        }
+
+        .skill-category-icon i {
+          font-size: 1.25rem !important;
+        }
+
+        /* Hero section adjustments */
+        .typewriter {
+          font-size: 2rem !important;
+        }
+
+        /* Navigation adjustments */
+        .nav-link {
+          font-size: 0.75rem;
+          padding: 0.25rem 0.5rem;
+        }
+
+        /* Project cards */
+        .project-image-wrapper img {
+          height: 200px;
+        }
+
+        /* Stats section */
+        .text-4xl {
+          font-size: 2rem;
+        }
+      }
+
+      @media (min-width: 481px) and (max-width: 768px) {
+        .skill-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .skill-card {
+          padding: 2rem;
+        }
+
+        .skill-category-icon {
+          width: 50px;
+          height: 50px;
+        }
+
+        .typewriter {
+          font-size: 3rem !important;
+        }
+
+        .project-image-wrapper img {
+          height: 240px;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .skill-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        .skill-card {
+          padding: 2rem;
+        }
+
+        .typewriter {
+          font-size: 4rem !important;
+        }
+      }
+
+      @media (min-width: 1025px) and (max-width: 1280px) {
+        .skill-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+        }
+
+        .skill-card {
+          padding: 2rem;
+        }
+      }
+
+      @media (min-width: 1281px) {
+        .skill-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .skill-card {
+          padding: 2.5rem;
+        }
+      }
+
+      /* Skill Counter Animation */
+      .skill-counter {
+        font-size: 0.75rem;
+        color: #64ffda;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+      }
+
+      .skill-card:hover .skill-counter {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Additional responsive utilities */
+      .responsive-text-sm {
+        font-size: 0.75rem;
+      }
+
+      @media (min-width: 640px) {
+        .responsive-text-sm {
+          font-size: 0.875rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .responsive-text-sm {
+          font-size: 1rem;
+        }
+      }
+
+      /* Contact Modal Styles */
+      .contact-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 25, 47, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .contact-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .contact-modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(23, 42, 69, 0.95),
+          rgba(15, 30, 55, 0.95)
+        );
+        border: 1px solid rgba(100, 255, 218, 0.3);
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+        position: relative;
+      }
+
+      .contact-modal.active .contact-modal-content {
+        transform: scale(1);
+      }
+
+      .contact-option {
+        background: rgba(100, 255, 218, 0.1);
+        border: 1px solid rgba(100, 255, 218, 0.2);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .contact-option:hover {
+        background: rgba(100, 255, 218, 0.2);
+        border-color: rgba(100, 255, 218, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(100, 255, 218, 0.2);
+      }
+
+      .contact-option::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(100, 255, 218, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .contact-option:hover::before {
+        left: 100%;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #ccd6f6;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      .close-modal:hover {
+        color: #64ffda;
+        background: rgba(100, 255, 218, 0.1);
+      }
+
+      /* Copy to clipboard animation */
+      .copy-success {
+        animation: copySuccess 0.5s ease;
+      }
+
+      @keyframes copySuccess {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="leading-relaxed">
+    <!-- Header -->
+    <header
+      class="glass-effect fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    >
+      <nav
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="text-2xl font-bold floating">
+          <a href="#home" class="accent-color">RG</a>
+        </div>
+        <div
+          class="flex flex-wrap justify-center md:justify-end space-x-2 sm:space-x-4 md:space-x-8 items-center text-xs sm:text-sm md:text-base"
+        >
+          <a
+            href="#home"
+            class="nav-link relative hover:text-cyan-300 transition duration-300 py-1 px-2 md:py-2 md:px-0"
+            >Home<span class="nav-indicator"></span
+          ></a>
+          <a
+            href="#skills"
+            class="nav-link relative hover:text-cyan-300 transition duration-300 py-1 px-2 md:py-2 md:px-0"
+            >Skills<span class="nav-indicator"></span
+          ></a>
+          <a
+            href="#experience"
+            class="nav-link relative hover:text-cyan-300 transition duration-300 py-1 px-2 md:py-2 md:px-0"
+            >Experience<span class="nav-indicator"></span
+          ></a>
+          <a
+            href="#projects"
+            class="nav-link relative hover:text-cyan-300 transition duration-300 py-1 px-2 md:py-2 md:px-0"
+            >Projects<span class="nav-indicator"></span
+          ></a>
+          <a
+            href="#contact"
+            class="nav-link relative hover:text-cyan-300 transition duration-300 py-1 px-2 md:py-2 md:px-0"
+            >Contact<span class="nav-indicator"></span
+          ></a>
+          <a
+            href="/download-resume"
+            class="btn-primary text-cyan-300 bg-transparent border border-cyan-300 rounded-md py-1 px-2 md:py-2 md:px-4 hover:bg-cyan-300 hover:text-[#0a192f] transition duration-300 font-medium pulse-glow text-xs sm:text-sm"
+            target="_blank"
+          >
+            <i class="fas fa-download mr-1"></i
+            ><span class="hidden sm:inline">Resume</span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main
+      class="container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 xl:px-24 pt-20 sm:pt-24"
+    >
+      <!-- Hero Section -->
+      <section
+        id="home"
+        class="min-h-screen flex flex-col justify-center section"
+      >
+        <div class="fade-in-up">
+          <h1 class="text-lg accent-color font-mono mb-4">Hi, my name is</h1>
+        </div>
+        <div class="fade-in-up" style="animation-delay: 0.2s">
+          <h2
+            class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-200 typewriter"
+          >
+            {{ profile.name }}.
+          </h2>
+        </div>
+        <div class="fade-in-up" style="animation-delay: 0.4s">
+          <h3
+            class="text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold secondary-color mt-2"
+          >
+            {{ profile.tagline }}.
+          </h3>
+        </div>
+        <div class="fade-in-up" style="animation-delay: 0.6s">
+          <p class="mt-6 max-w-xl secondary-color">{{ profile.summary }}</p>
+        </div>
+        <div class="fade-in-up" style="animation-delay: 0.8s">
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a
+              href="#projects"
+              class="btn-primary text-cyan-300 bg-transparent border border-cyan-300 rounded-md py-3 px-7 hover:bg-cyan-300 hover:text-[#0a192f] transition duration-300 font-medium"
+            >
+              Check out my work!
+            </a>
+            <a
+              href="/download-resume"
+              class="btn-primary text-slate-200 bg-transparent border border-slate-200 rounded-md py-3 px-7 hover:bg-slate-200 hover:text-[#0a192f] transition duration-300 font-medium"
+              target="_blank"
+            >
+              <i class="fas fa-download mr-2"></i>Download Resume
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Me Section -->
+      <section id="about" class="py-16 sm:py-20 md:py-24 section">
+        <div class="fade-in-left">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 relative">
+            <span class="accent-color font-mono mr-2">01.</span> About Me
+            <div
+              class="progress-bar absolute left-0 -bottom-2 w-16 sm:w-24"
+            ></div>
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-5 gap-8 md:gap-10">
+          <div
+            class="md:col-span-3 secondary-color space-y-4 fade-in-left"
+            style="animation-delay: 0.2s"
+          >
+            <p>
+              Hello! I'm Rishank, a data scientist driven by the challenge of
+              solving complex problems with data and artificial intelligence. My
+              journey into the world of tech began with a deep curiosity for how
+              things work, which naturally led me to computer science and, more
+              specifically, the fascinating field of data science.
+            </p>
+            <p>
+              My professional experience has allowed me to dive deep into
+              building end-to-end AI solutions. At Emplay Analytics, I've had
+              the privilege of working on impactful projects, from creating
+              systems that intelligently extract information from thousands of
+              legal documents to building conversational bots that streamline
+              business processes and enhance user interaction.
+            </p>
+            <p>
+              I'm passionate about the entire machine learning lifecycle—from
+              data exploration and model development to deployment and
+              monitoring. I believe in writing clean, efficient code and
+              building scalable, reliable systems.
+            </p>
+          </div>
+          <div
+            class="md:col-span-2 flex items-center justify-center fade-in-right"
+            style="animation-delay: 0.4s"
+          >
+            <div
+              class="w-48 sm:w-56 md:w-64 h-48 sm:h-56 md:h-64 rounded-lg relative group card-hover mx-auto"
+            >
+              <div
+                class="absolute inset-0 bg-cyan-300 rounded-lg transform transition-transform duration-300 group-hover:translate-x-2 sm:group-hover:translate-x-3 group-hover:translate-y-2 sm:group-hover:translate-y-3"
+              ></div>
+              <img
+                src="https://placehold.co/400x400/0a192f/64ffda?text=RG"
+                alt="Rishank Gautam"
+                class="absolute inset-0 w-full h-full object-cover rounded-lg z-10 border-2 border-slate-700"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills" class="py-16 sm:py-20 md:py-24 section">
+        <div class="fade-in-up">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 relative">
+            <span class="accent-color font-mono mr-2">02.</span> Skills &
+            Expertise
+            <div
+              class="progress-bar absolute left-0 -bottom-2 w-16 sm:w-24"
+            ></div>
+          </h2>
+          <p
+            class="secondary-color text-base sm:text-lg mb-8 sm:mb-12 max-w-2xl"
+          >
+            Here are the technologies and tools I work with to bring ideas to
+            life. Each skill represents countless hours of learning, building,
+            and problem-solving.
+          </p>
+        </div>
+
+        <div class="skill-grid">
+          {% for category, skill_list in skills.items() %}
+          <div
+            class="skill-card rounded-xl p-8 fade-in-up"
+            style="animation-delay: {{ loop.index0 * 0.15 }}s"
+          >
+            <div class="flex items-center mb-6">
+              <div class="skill-category-icon mr-4">
+                {% if category == "Languages" %}
+                <i class="fas fa-code text-slate-900 text-2xl"></i>
+                {% elif "Analysis" in category %}
+                <i class="fas fa-chart-bar text-slate-900 text-2xl"></i>
+                {% elif "Technologies" in category %}
+                <i class="fas fa-cogs text-slate-900 text-2xl"></i>
+                {% else %}
+                <i class="fas fa-brain text-slate-900 text-2xl"></i>
+                {% endif %}
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-slate-200 mb-1">
+                  {{ category }}
+                </h3>
+                <div class="skill-counter">{{ skill_list|length }} skills</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              {% for skill in skill_list %}
+              <span
+                class="skill-badge text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 cursor-default"
+              >
+                {{ skill }}
+              </span>
+              {% endfor %}
+            </div>
+
+            <div class="skill-progress">
+              <div
+                class="skill-progress-bar"
+                style="animation-delay: {{ (loop.index0 * 0.2) + 0.5 }}s;"
+              ></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Interactive Skills Stats -->
+        <div
+          class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 fade-in-up max-w-4xl mx-auto"
+          style="animation-delay: 0.8s"
+        >
+          <div class="text-center">
+            <div
+              class="text-2xl sm:text-3xl md:text-4xl font-bold accent-color mb-2"
+            >
+              {{ skills.values()|map('length')|sum }}
+            </div>
+            <div
+              class="secondary-color text-xs sm:text-sm uppercase tracking-wide"
+            >
+              Total Skills
+            </div>
+          </div>
+          <div class="text-center">
+            <div
+              class="text-2xl sm:text-3xl md:text-4xl font-bold accent-color mb-2"
+            >
+              2+
+            </div>
+            <div
+              class="secondary-color text-xs sm:text-sm uppercase tracking-wide"
+            >
+              Years Experience
+            </div>
+          </div>
+          <div class="text-center">
+            <div
+              class="text-2xl sm:text-3xl md:text-4xl font-bold accent-color mb-2"
+            >
+              5+
+            </div>
+            <div
+              class="secondary-color text-xs sm:text-sm uppercase tracking-wide"
+            >
+              Major Projects
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="py-16 sm:py-20 md:py-24 section">
+        <div class="fade-in-left">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative">
+            <span class="accent-color font-mono mr-2">03.</span> Where I've
+            Worked
+            <div
+              class="progress-bar absolute left-0 -bottom-2 w-16 sm:w-24"
+            ></div>
+          </h2>
+        </div>
+        <div class="relative border-l-2 border-slate-700 pl-6 sm:pl-8">
+          {% for job in experiences %}
+          <div
+            class="mb-12 relative fade-in-right"
+            style="animation-delay: {{ loop.index0 * 0.2 }}s"
+          >
+            <div
+              class="absolute -left-[34px] sm:-left-[42px] top-1.5 w-3 h-3 sm:w-4 sm:h-4 bg-cyan-300 rounded-full border-2 sm:border-4 border-[#0a192f] pulse-glow"
+            ></div>
+            <div class="card-hover glass-effect p-4 sm:p-6 rounded-lg">
+              <h3 class="text-lg sm:text-xl font-bold text-slate-200">
+                {{ job.role }}
+                <span class="accent-color">@ {{ job.company }}</span>
+              </h3>
+              <p
+                class="text-xs sm:text-sm font-mono secondary-color mb-3 sm:mb-4"
+              >
+                {{ job.period }} | {{ job.location }}
+              </p>
+              <ul class="space-y-2">
+                {% for item in job.description %}
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-caret-right accent-color mr-3 mt-1.5 flex-shrink-0"
+                  ></i>
+                  <span class="secondary-color">{{ item | safe }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="py-16 sm:py-20 md:py-24 section">
+        <div class="fade-in-up">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 relative">
+            <span class="accent-color font-mono mr-2">04.</span> Things I've
+            Built
+            <div
+              class="progress-bar absolute left-0 -bottom-2 w-16 sm:w-24"
+            ></div>
+          </h2>
+        </div>
+
+        <div class="space-y-16 sm:space-y-20 md:space-y-24">
+          {% for project in projects %}
+          <div class="project-item fade-in-up">
+            {% if loop.index0 % 2 == 0 %}
+            <!-- Left-aligned project (image on left, content on right) -->
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            >
+              <!-- Image Column -->
+              <div class="lg:col-span-6 fade-in-left">
+                <div class="project-image-wrapper group">
+                  <div
+                    class="absolute inset-0 bg-cyan-300 rounded-lg transform transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2 opacity-20 group-hover:opacity-40"
+                  ></div>
+                  <div class="relative overflow-hidden rounded-lg shadow-2xl">
+                    <img
+                      src="{{ project.image }}"
+                      alt="{{ project.image_alt }}"
+                      class="w-full h-64 lg:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div
+                      class="absolute inset-0 bg-cyan-900 opacity-70 group-hover:opacity-50 transition-opacity duration-300"
+                    ></div>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <a
+                        href="{{ project.link }}"
+                        target="_blank"
+                        class="bg-cyan-300 text-slate-900 p-4 rounded-full transform hover:scale-110 transition-all duration-300 shadow-lg"
+                        aria-label="View {{ project.title }} on GitHub"
+                      >
+                        <i class="fab fa-github text-2xl"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content Column -->
+              <div class="lg:col-span-6 fade-in-right">
+                <div class="project-content lg:pl-8">
+                  <p class="text-cyan-300 font-mono text-sm mb-2">
+                    Featured Project
+                  </p>
+                  <h3
+                    class="text-2xl lg:text-3xl font-bold text-slate-200 mb-4 hover:text-cyan-300 transition-colors"
+                  >
+                    <a href="{{ project.link }}" target="_blank"
+                      >{{ project.title }}</a
+                    >
+                  </h3>
+                  <div
+                    class="glass-effect p-6 rounded-lg shadow-xl mb-6 hover:shadow-2xl transition-shadow duration-300"
+                  >
+                    <p class="secondary-color leading-relaxed">
+                      {{ project.description }}
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap gap-3 mb-6">
+                    {% for tech in project.technologies %}
+                    <span
+                      class="text-xs font-mono px-3 py-2 bg-slate-800 text-slate-300 rounded-md hover:bg-cyan-300 hover:text-slate-900 transition-all cursor-default"
+                    >
+                      {{ tech }}
+                    </span>
+                    {% endfor %}
+                  </div>
+                  <div class="flex gap-4">
+                    <a
+                      href="{{ project.link }}"
+                      target="_blank"
+                      class="text-cyan-300 hover:text-cyan-400 transition-colors transform hover:scale-110"
+                      aria-label="View code for {{ project.title }}"
+                    >
+                      <i class="fab fa-github text-2xl"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <!-- Right-aligned project (content on left, image on right) -->
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            >
+              <!-- Content Column -->
+              <div class="lg:col-span-6 order-2 lg:order-1 fade-in-left">
+                <div class="project-content lg:pr-8 text-left lg:text-right">
+                  <p class="text-cyan-300 font-mono text-sm mb-2">
+                    Featured Project
+                  </p>
+                  <h3
+                    class="text-2xl lg:text-3xl font-bold text-slate-200 mb-4 hover:text-cyan-300 transition-colors"
+                  >
+                    <a href="{{ project.link }}" target="_blank"
+                      >{{ project.title }}</a
+                    >
+                  </h3>
+                  <div
+                    class="glass-effect p-6 rounded-lg shadow-xl mb-6 hover:shadow-2xl transition-shadow duration-300"
+                  >
+                    <p class="secondary-color leading-relaxed">
+                      {{ project.description }}
+                    </p>
+                  </div>
+                  <div
+                    class="flex flex-wrap gap-3 mb-6 justify-start lg:justify-end"
+                  >
+                    {% for tech in project.technologies %}
+                    <span
+                      class="text-xs font-mono px-3 py-2 bg-slate-800 text-slate-300 rounded-md hover:bg-cyan-300 hover:text-slate-900 transition-all cursor-default"
+                    >
+                      {{ tech }}
+                    </span>
+                    {% endfor %}
+                  </div>
+                  <div class="flex gap-4 justify-start lg:justify-end">
+                    <a
+                      href="{{ project.link }}"
+                      target="_blank"
+                      class="text-cyan-300 hover:text-cyan-400 transition-colors transform hover:scale-110"
+                      aria-label="View code for {{ project.title }}"
+                    >
+                      <i class="fab fa-github text-2xl"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Column -->
+              <div class="lg:col-span-6 order-1 lg:order-2 fade-in-right">
+                <div class="project-image-wrapper group">
+                  <div
+                    class="absolute inset-0 bg-cyan-300 rounded-lg transform transition-all duration-500 group-hover:-translate-x-2 group-hover:translate-y-2 opacity-20 group-hover:opacity-40"
+                  ></div>
+                  <div class="relative overflow-hidden rounded-lg shadow-2xl">
+                    <img
+                      src="{{ project.image }}"
+                      alt="{{ project.image_alt }}"
+                      class="w-full h-64 lg:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div
+                      class="absolute inset-0 bg-cyan-900 opacity-70 group-hover:opacity-50 transition-opacity duration-300"
+                    ></div>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <a
+                        href="{{ project.link }}"
+                        target="_blank"
+                        class="bg-cyan-300 text-slate-900 p-4 rounded-full transform hover:scale-110 transition-all duration-300 shadow-lg"
+                        aria-label="View {{ project.title }} on GitHub"
+                      >
+                        <i class="fab fa-github text-2xl"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-16 sm:py-20 md:py-24 text-center section">
+        <div class="fade-in-up">
+          <h2 class="text-xl sm:text-2xl font-bold mb-2">
+            <span class="accent-color font-mono">05.</span> What's Next?
+          </h2>
+          <h3
+            class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-200 mb-4"
+          >
+            Get In Touch
+          </h3>
+          <p
+            class="max-w-xl mx-auto secondary-color mb-6 sm:mb-8 text-sm sm:text-base px-4"
+          >
+            I'm always open to discussing new projects, creative ideas, or
+            opportunities to be part of an ambitious vision. Whether you have a
+            question or just want to say hi, my inbox is always open!
+          </p>
+          <div
+            class="flex flex-col sm:flex-row flex-wrap gap-4 justify-center px-4"
+          >
+            <button
+              id="contact-modal-btn"
+              class="btn-primary text-cyan-300 bg-transparent border border-cyan-300 rounded-md py-2 sm:py-3 px-4 sm:px-7 hover:bg-cyan-300 hover:text-[#0a192f] transition duration-300 font-medium text-sm sm:text-base lg:text-lg"
+            >
+              <i class="fas fa-envelope mr-2"></i>Say Hello
+            </button>
+            <a
+              href="/download-resume"
+              class="btn-primary text-slate-200 bg-transparent border border-slate-200 rounded-md py-2 sm:py-3 px-4 sm:px-7 hover:bg-slate-200 hover:text-[#0a192f] transition duration-300 font-medium text-sm sm:text-base lg:text-lg"
+              target="_blank"
+            >
+              <i class="fas fa-download mr-2"></i>Get My Resume
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Modal -->
+      <div id="contact-modal" class="contact-modal">
+        <div class="contact-modal-content">
+          <button class="close-modal" id="close-modal">
+            <i class="fas fa-times"></i>
+          </button>
+
+          <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-slate-200 mb-2">
+              Let's Connect!
+            </h3>
+            <p class="secondary-color text-sm">
+              Choose your preferred way to reach out:
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- LinkedIn Option -->
+            <div
+              class="contact-option rounded-lg p-4 cursor-pointer"
+              id="linkedin-option"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="fab fa-linkedin-in text-white text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-slate-200 font-semibold">LinkedIn</h4>
+                    <p class="secondary-color text-sm">Professional Network</p>
+                  </div>
+                </div>
+                <i class="fas fa-external-link-alt text-cyan-300"></i>
+              </div>
+              <p class="text-xs secondary-color mt-2 pl-16">
+                Connect with me on LinkedIn for professional discussions
+              </p>
+            </div>
+
+            <!-- Copy Email Option -->
+            <div
+              class="contact-option rounded-lg p-4 cursor-pointer"
+              id="copy-email-option"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="fas fa-copy text-white text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-slate-200 font-semibold">Copy Email</h4>
+                    <p class="secondary-color text-sm">{{ profile.email }}</p>
+                  </div>
+                </div>
+                <i class="fas fa-clipboard text-cyan-300"></i>
+              </div>
+              <p class="text-xs secondary-color mt-2 pl-16">
+                Copy email address to your clipboard
+              </p>
+            </div>
+
+            <!-- Gmail Option -->
+            <div
+              class="contact-option rounded-lg p-4 cursor-pointer"
+              id="gmail-option"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="fab fa-google text-white text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-slate-200 font-semibold">Open in Gmail</h4>
+                    <p class="secondary-color text-sm">{{ profile.email }}</p>
+                  </div>
+                </div>
+                <i class="fas fa-external-link-alt text-cyan-300"></i>
+              </div>
+              <p class="text-xs secondary-color mt-2 pl-16">
+                Opens Gmail compose window directly in browser
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="mt-6 p-4 bg-rgba-100-255-218-0.1 rounded-lg border border-rgba-100-255-218-0.2"
+          >
+            <div class="flex items-start">
+              <i
+                class="fas fa-info-circle text-cyan-300 mr-3 mt-1 flex-shrink-0"
+              ></i>
+              <div>
+                <h5 class="text-slate-200 font-medium mb-1">Quick Tip</h5>
+                <p class="text-xs secondary-color">
+                  Email is the best way to reach me for project discussions. I
+                  usually respond within 24 hours!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 sm:py-8">
+      <div class="container mx-auto px-4 sm:px-6 text-center secondary-color">
+        <div class="flex justify-center space-x-4 sm:space-x-6 mb-3 sm:mb-4">
+          <a
+            href="{{ profile.github }}"
+            target="_blank"
+            class="hover:accent-color transition-colors text-xl sm:text-2xl transform hover:scale-110"
+            aria-label="GitHub Profile"
+            ><i class="fab fa-github"></i
+          ></a>
+          <a
+            href="{{ profile.linkedin }}"
+            target="_blank"
+            class="hover:accent-color transition-colors text-xl sm:text-2xl transform hover:scale-110"
+            aria-label="LinkedIn Profile"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+        </div>
+        <p class="text-xs sm:text-sm">Designed & Built by Rishank Gautam</p>
+      </div>
+    </footer>
+
+    <script>
+      // Enhanced scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+
+            // Animate child elements with stagger
+            const animatedElements = entry.target.querySelectorAll(
+              ".fade-in-up, .fade-in-left, .fade-in-right, .scale-in"
+            );
+            animatedElements.forEach((el, index) => {
+              setTimeout(() => {
+                el.classList.add("animate");
+              }, index * 100);
+            });
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      document.querySelectorAll(".section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Active navigation highlighting
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (window.pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+          }
+        });
+      });
+
+      // Parallax effect for hero section
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.getElementById("home");
+        const rate = scrolled * -0.5;
+        hero.style.transform = `translateY(${rate}px)`;
+      });
+
+      // Typing effect completion handler
+      setTimeout(() => {
+        const typewriter = document.querySelector(".typewriter");
+        if (typewriter) {
+          typewriter.style.borderRight = "none";
+        }
+      }, 4000);
+
+      // Initialize animations on page load
+      window.addEventListener("load", () => {
+        const initialElements = document.querySelectorAll(
+          ".fade-in-up, .fade-in-left, .fade-in-right, .scale-in"
+        );
+        initialElements.forEach((el, index) => {
+          setTimeout(() => {
+            el.classList.add("animate");
+          }, index * 100);
+        });
+      });
+
+      // Enhanced Skills Interaction
+      document.addEventListener("DOMContentLoaded", () => {
+        // Skill card hover effects
+        const skillCards = document.querySelectorAll(".skill-card");
+        skillCards.forEach((card) => {
+          card.addEventListener("mouseenter", () => {
+            // Add glow effect to skill badges
+            const badges = card.querySelectorAll(".skill-badge");
+            badges.forEach((badge, index) => {
+              setTimeout(() => {
+                badge.style.transform = "translateY(-2px)";
+                badge.style.boxShadow = "0 5px 15px rgba(100, 255, 218, 0.3)";
+              }, index * 50);
+            });
+          });
+
+          card.addEventListener("mouseleave", () => {
+            // Remove glow effect
+            const badges = card.querySelectorAll(".skill-badge");
+            badges.forEach((badge) => {
+              badge.style.transform = "translateY(0)";
+              badge.style.boxShadow = "none";
+            });
+          });
+        });
+
+        // Animate skill counters when in view
+        const animateCounters = (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              const target = parseInt(counter.textContent);
+              const duration = 2000;
+              const step = target / (duration / 16);
+              let current = 0;
+
+              const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                  counter.textContent = Math.floor(current);
+                  requestAnimationFrame(updateCounter);
+                } else {
+                  counter.textContent = target;
+                }
+              };
+
+              if (target > 0) {
+                counter.textContent = "0";
+                updateCounter();
+              }
+
+              observer.unobserve(counter);
+            }
+          });
+        };
+
+        const counterObserver = new IntersectionObserver(animateCounters, {
+          threshold: 0.5,
+        });
+
+        // Observe all counter elements
+        document
+          .querySelectorAll(".text-4xl.font-bold.accent-color")
+          .forEach((counter) => {
+            counterObserver.observe(counter);
+          });
+
+        // Add click interaction to skill badges
+        const skillBadges = document.querySelectorAll(".skill-badge");
+        skillBadges.forEach((badge) => {
+          badge.addEventListener("click", () => {
+            // Create ripple effect
+            const ripple = document.createElement("span");
+            ripple.style.cssText = `
+              position: absolute;
+              border-radius: 50%;
+              background: rgba(100, 255, 218, 0.6);
+              pointer-events: none;
+              transform: scale(0);
+              animation: ripple 0.6s linear;
+              width: 100px;
+              height: 100px;
+              left: -50px;
+              top: -50px;
+            `;
+
+            badge.style.position = "relative";
+            badge.appendChild(ripple);
+
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement("style");
+        style.textContent = `
+          @keyframes ripple {
+            0% {
+              transform: scale(0);
+              opacity: 1;
+            }
+            100% {
+              transform: scale(2);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      });
+
+      // Enhanced Contact Modal Functionality
+      document.addEventListener("DOMContentLoaded", () => {
+        const contactModalBtn = document.getElementById("contact-modal-btn");
+        const contactModal = document.getElementById("contact-modal");
+        const closeModal = document.getElementById("close-modal");
+        const linkedinOption = document.getElementById("linkedin-option");
+        const copyEmailOption = document.getElementById("copy-email-option");
+        const gmailOption = document.getElementById("gmail-option");
+
+        // Open modal
+        contactModalBtn.addEventListener("click", () => {
+          contactModal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        });
+
+        // Close modal
+        const closeModalFunction = () => {
+          contactModal.classList.remove("active");
+          document.body.style.overflow = "auto";
+        };
+
+        closeModal.addEventListener("click", closeModalFunction);
+
+        // Close on backdrop click
+        contactModal.addEventListener("click", (e) => {
+          if (e.target === contactModal) {
+            closeModalFunction();
+          }
+        });
+
+        // Close on escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && contactModal.classList.contains("active")) {
+            closeModalFunction();
+          }
+        });
+
+        // LinkedIn option
+        linkedinOption.addEventListener("click", () => {
+          window.open("{{ profile.linkedin }}", "_blank");
+          closeModalFunction();
+        });
+
+        // Copy email to clipboard
+        copyEmailOption.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText("{{ profile.email }}");
+
+            // Visual feedback
+            const icon = copyEmailOption.querySelector(".fa-clipboard");
+            const originalClass = icon.className;
+            icon.className = "fas fa-check text-green-400";
+            copyEmailOption.classList.add("copy-success");
+
+            // Show success message
+            const successMsg = document.createElement("div");
+            successMsg.textContent = "Email copied!";
+            successMsg.className = "text-green-400 text-xs font-medium";
+            copyEmailOption
+              .querySelector(".secondary-color")
+              .replaceWith(successMsg);
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+              icon.className = originalClass;
+              copyEmailOption.classList.remove("copy-success");
+              successMsg.replaceWith(
+                Object.assign(document.createElement("p"), {
+                  textContent: "{{ profile.email }}",
+                  className: "secondary-color text-sm",
+                })
+              );
+            }, 2000);
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = "{{ profile.email }}";
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            // Show feedback
+            alert("Email address copied to clipboard!");
+          }
+        });
+
+        // Gmail option - opens Gmail compose window directly
+        gmailOption.addEventListener("click", () => {
+          const subject = encodeURIComponent(
+            "Portfolio Inquiry - Let's Connect!"
+          );
+          const body = encodeURIComponent(`Hi Rishank,
+
+I came across your portfolio and I'm impressed with your work! I'd love to discuss:
+
+□ A potential project collaboration
+□ Job opportunity
+□ General networking
+□ Other: _______________
+
+Looking forward to hearing from you!
+
+Best regards,
+[Your Name]`);
+
+          const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to={{ profile.email }}&subject=${subject}&body=${body}`;
+
+          window.open(gmailUrl, "_blank");
+
+          // Close modal after a brief delay
+          setTimeout(() => {
+            closeModalFunction();
+          }, 1000);
+        });
+      });
+    </script>
+  </body>
+</html>
