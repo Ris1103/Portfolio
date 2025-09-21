@@ -7,6 +7,8 @@ automatic_scaling:
 env_variables:
   FLASK_ENV: production
 
+entrypoint: gunicorn --bind :$PORT app:app
+
 handlers:
 - url: /static
   static_dir: static
