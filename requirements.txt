@@ -7,8 +7,8 @@ itsdangerous==2.2.0
 blinker==1.9.0
 click==8.3.0
 
-# Optional production server (uncomment if needed)
-# gunicorn==21.2.0
+# Production server (needed for deployment)
+gunicorn==21.2.0
 
 # Optional dependencies for enhanced functionality (uncomment if needed)
 # python-dotenv==1.0.0  # For environment variables
